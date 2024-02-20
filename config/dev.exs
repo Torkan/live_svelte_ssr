@@ -25,7 +25,11 @@ config :live_svelte_ssr, LiveSvelteSsrWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "l+u5dZcBSPe/MawU8W87OHBmhwK7ksLODytp3yO6QNjfyu3QU5VdMGdcFr/o9i1U",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    node: [
+      "esbuild-builder.js",
+      "--watch",
+      cd: Path.expand("../assets", __DIR__)
+    ],
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 

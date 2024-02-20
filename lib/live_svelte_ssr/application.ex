@@ -7,11 +7,15 @@ defmodule LiveSvelteSsr.Application do
 
   @impl true
   def start(_type, _args) do
+    {:ok, path} = :application.get_application()
+    node_path = Application.app_dir(path, "/priv")
+
     children = [
       LiveSvelteSsrWeb.Telemetry,
-      LiveSvelteSsr.Repo,
+      # LiveSvelteSsr.Repo,
       {DNSCluster, query: Application.get_env(:live_svelte_ssr, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: LiveSvelteSsr.PubSub},
+      {LiveSvelteSsr.NodeJS.Supervisor, [path: node_path, pool_size: 4]},
       # Start the Finch HTTP client for sending emails
       {Finch, name: LiveSvelteSsr.Finch},
       # Start a worker by calling: LiveSvelteSsr.Worker.start_link(arg)

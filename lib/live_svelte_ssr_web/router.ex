@@ -17,7 +17,7 @@ defmodule LiveSvelteSsrWeb.Router do
   scope "/", LiveSvelteSsrWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", IndexLive
   end
 
   # Other scopes may use custom stacks.
